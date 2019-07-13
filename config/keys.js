@@ -1,6 +1,6 @@
-module.exports={
-    googleProjectId:"react-fitness-bot-dxhskt",
-    sessionId:"react-ftbot-session",
-    dialogFlowLanguage:'en-US'
-
+if(process.env.NODE_ENV==='production'){
+    module.exports=require('./prodconfig');
+}
+else{
+    module.prod=require('./devconfig')
 }

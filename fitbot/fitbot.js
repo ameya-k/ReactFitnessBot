@@ -4,8 +4,13 @@ const  df=require('dialogflow');
 const conf=require('../config/keys');
 const sj=require('structjson');
 
-const sessionClient=new df.SessionsClient();
 
+const projectID=conf.googleProjectId;
+const credentials={
+    client_email:conf.googleClientEmail,
+    private_key:conf.googlePrivateKey
+}
+const sessionClient=new df.SessionsClient({projectID,credentials});
 const sessionPath=sessionClient.sessionPath(conf.googleProjectId,conf.sessionId);
 module.exports={
     textQuery:async function(text,parameters={}){
