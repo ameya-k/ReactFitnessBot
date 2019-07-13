@@ -2,6 +2,7 @@
 
 const  df=require('dialogflow');
 const conf=require('../config/keys');
+const sj=require('structjson');
 
 const sessionClient=new df.SessionsClient();
 
@@ -24,7 +25,7 @@ module.exports={
             },
             queryParams:{
                 payload:{
-                    data:parameters
+                    data:sj.jsonToStructProto(parameters)
                 }
             }
         };
@@ -33,8 +34,32 @@ module.exports={
         return responses;
 
     },
+
+    eventQuery:async function(event,parameters={}){
+
+        let self=module.exports;
+
+
+        const request = {
+            session: sessionPath,
+            queryInput: {
+                event: {
+
+                    name: event,
+                    parameters:parameters,
+
+                    languageCode: conf.dialogFlowLanguage,
+                },
+            }
+        };
+        let responses=await sessionClient.detectIntent(request);
+        responses=await self.handleActions(responses);
+        return responses;
+
+    }
+    ,
     handleActions:function (responses) {
         return responses;
 
     }
-}
+};

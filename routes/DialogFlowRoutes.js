@@ -13,7 +13,9 @@ module.exports=app=>{
         res.send(responses[0].queryResult);
     });
 
-    app.post('/api/event_bot',(req,res)=>{
-        res.send({'message':'Responds to click events'});
+    app.post('/api/event_bot',async (req,res)=>{
+        let responses=await fitbot.eventQuery(req.body.event,req.body.parameters);
+
+        res.send(responses[0].queryResult);
     });
 }
