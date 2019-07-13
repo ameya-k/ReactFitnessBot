@@ -4,7 +4,7 @@ const app=express();
 const PORT_NUMBER=process.env.PORT || 5000;
 
 app.get('/',(req,res)=>{
-    res.send({'message':'Hello from FitBot!'});
+    res.send({'message':'Hello from FitBot chatbot!'});
 });
 
 
