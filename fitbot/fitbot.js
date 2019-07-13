@@ -10,7 +10,7 @@ const credentials={
     client_email:conf.googleClientEmail,
     private_key:conf.googlePrivateKey
 }
-const sessionClient=new df.SessionsClient({projectID,credentials});
+const sessionClient=new df.SessionsClient({projectID:projectID,credentials:credentials});
 const sessionPath=sessionClient.sessionPath(conf.googleProjectId,conf.sessionId);
 module.exports={
     textQuery:async function(text,parameters={}){
