@@ -1,10 +1,4 @@
-
-const  df=require('dialogflow');
-const conf=require('../config/keys');
-
-const sessionClient=new df.SessionsClient();
-
-const sessionPath=sessionClient.sessionPath(conf.googleProjectId,conf.sessionId);
+const fitbot=require('../fitbot/fitbot');
 
 module.exports=app=>{
 
@@ -14,19 +8,8 @@ module.exports=app=>{
 
     app.post('/api/text_bot/',async (req,res)=>{
 
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    // The query to send to the dialogflow agent
-                    text: req.body.text,
-                    // The language used by the client (en-US)
-                    languageCode: conf.dialogFlowLanguage,
-                },
-            },
-        };
+        let responses=await fitbot.textQuery(req.body.text,req.body.parameters);
 
-        let responses=await sessionClient.detectIntent(request);
         res.send(responses[0].queryResult);
     });
 
