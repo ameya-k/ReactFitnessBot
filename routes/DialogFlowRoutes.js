@@ -4,7 +4,7 @@ const conf=require('../config/keys');
 
 const sessionClient=new df.SessionsClient();
 
-const seesionPath=sessionClient.sessionPath(conf.googleProjectId,conf.sessionId);
+const sessionPath=sessionClient.sessionPath(conf.googleProjectId,conf.sessionId);
 
 module.exports=app=>{
 
@@ -12,7 +12,7 @@ module.exports=app=>{
         res.send({'message':'Hello from FitBot chatbot!'});
     });
 
-    app.post('/api/text_bot',async (req,res)=>{
+    app.post('/api/text_bot/',async (req,res)=>{
 
         const request = {
             session: sessionPath,
@@ -27,10 +27,6 @@ module.exports=app=>{
         };
 
         let responses=await sessionClient.detectIntent(request);
-
-
-
-
         res.send(responses[0].queryResult);
     });
 
