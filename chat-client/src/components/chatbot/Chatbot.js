@@ -35,6 +35,7 @@ class Chatbot extends Component {
         this.setState({messages:[...this.state.messages,says]});
         const res=await axios.post('http://localhost:5000/api/text_bot/',{text,userID:cookies.get('userID')});
         for (let msg of res.data.fulfillmentMessages){
+            console.log(JSON.stringify(msg));
             says= {
                 speaks: 'FitBot',
                 msg: msg
@@ -70,7 +71,14 @@ componentDidUpdate() {
     showMessages(messages){
         if(messages){
             return messages.map((message,i)=>{
-                return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
+                if(message.msg && message.msg.text && message.msg.text.text){
+                    return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
+                }
+                else{
+                    return <h2>Cards!</h2>
+                }
+
+
 
             })
         }else{
