@@ -12,8 +12,8 @@ class Chatbot extends Component {
         let says={
             speaks:'Me',
             msg:{
-                text:{
-                    text:text
+                'text':{
+                    'text':text
                 }
             }
         }
@@ -23,7 +23,7 @@ class Chatbot extends Component {
             says= {
                 speaks: 'FitBot',
                 msg: msg
-            }
+            };
             this.setState({
                 messages:[...this.state.messages,says]
             })
@@ -31,23 +31,28 @@ class Chatbot extends Component {
     }
 
     async event_bot_query(event){
-        const res=await axios.post('/api/event_bot/',{event});
+        const res=await axios.post('http://localhost:5000/api/event_bot/',{event});
         for(let msg of res.data.fulfillmentMessages){
             let says={
-                speaks:'Me',
+                speaks:'FitBot',
                 msg:msg
             };
             this.setState({
                 messages:[...this.state.messages,says]
             });
+            console.log(this.state.messages);
         }
+    }
+
+    componentDidMount() {
+        this.event_bot_query('Welcome');
     }
 
     showMessages(messages){
         if(messages){
             return messages.map((message,i)=>{
-                return <Message key={e} speaks={message.speaks} text={message.msg.text.text} >
-                </Message>
+                return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
+
             })
         }else{
             return null;
