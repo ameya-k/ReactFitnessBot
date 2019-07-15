@@ -46,7 +46,8 @@ class Chatbot extends Component {
     showMessages(messages){
         if(messages){
             return messages.map((message,i)=>{
-                return <Message key={e} speaks={message.speaks} text={message.msg.text.text} />
+                return <Message key={e} speaks={message.speaks} text={message.msg.text.text} >
+                </Message>
             })
         }else{
             return null;
