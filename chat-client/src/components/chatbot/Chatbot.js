@@ -3,7 +3,7 @@ import axios from 'axios/index';
 import  Message from './Message'
 import Cookies from 'universal-cookie'
 import {v4 as uuid} from 'uuid'
-
+import Card from './Card'
 const cookies=new Cookies();
 class Chatbot extends Component {
     messagesBottom;
@@ -71,18 +71,36 @@ componentDidUpdate() {
     showMessages(messages){
         if(messages){
             return messages.map((message,i)=>{
-                if(message.msg && message.msg.text && message.msg.text.text){
-                    return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
-                }
-                else{
-                    return <h2>Cards!</h2>
-                }
-
-
-
+                return this.showOneMessage(message,i);
             })
         }else{
             return null;
+        }
+    }
+
+    renderExercises(cards){
+        return cards.map((card,i)=><Card key={i} payload={card.structValue} />)
+    }
+
+    showOneMessage(message,i){
+        if(message.msg && message.msg.text && message.msg.text.text){
+            return <Message key={i} speaks={message.speaks} text={message.msg.text.text} />
+        }
+        else if(message.msg && message.msg.payload && message.msg.payload.fields && message.msg.payload.fields.cards){
+            return <div key={i}>
+                <div className='card-panel grey lighten-5 z-depth-1'>
+                    <div style={{overflow:'hidden'}}>
+                        <div className='col s2'>
+                            <button>{message.speaks}</button>
+                        </div>
+                        <div style={{overflow:'auto',overflowY:'scroll'}}>
+                            <div style={{height:300,width:message.msg.payload.fields.cards.listValue.values.length*270}}>
+                                {this.renderExercises(message.msg.payload.fields.cards.listValue.values)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         }
     }
 

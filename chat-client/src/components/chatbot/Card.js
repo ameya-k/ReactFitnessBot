@@ -14,7 +14,7 @@ const Card=(props)=> {
                         <p>{props.payload.fields.description.stringValue}</p>
                     </div>
                     <div className="card-action">
-                        <a href="#">{}</a>
+                        <a target="_blank" href={props.payload.fields.link.stringValue}>Watch video</a>
                     </div>
                 </div>
             </div>
@@ -22,3 +22,5 @@ const Card=(props)=> {
     </div>
     );
 }
+
+export default Card;
