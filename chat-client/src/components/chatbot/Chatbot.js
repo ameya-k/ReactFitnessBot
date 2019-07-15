@@ -1,6 +1,10 @@
 import React,{Component} from 'react'
 import axios from 'axios/index';
 import  Message from './Message'
+import Cookies from 'universal-cookie'
+import {v4 as uuid} from 'uuid'
+
+const cookies=new Cookies();
 class Chatbot extends Component {
     messagesBottom;
     state={
@@ -10,6 +14,12 @@ class Chatbot extends Component {
     constructor(props){
         super(props);
         this.inputChange=this.inputChange.bind(this);
+        if(cookies.get('userID')===undefined) {
+
+
+            cookies.set('userID', uuid(), {path: '/'});
+        }
+        console.log(cookies.get('userID'));
     }
 
     async text_bot_query(text){
@@ -23,7 +33,7 @@ class Chatbot extends Component {
             }
         }
         this.setState({messages:[...this.state.messages,says]});
-        const res=await axios.post('http://localhost:5000/api/text_bot/',{text});
+        const res=await axios.post('http://localhost:5000/api/text_bot/',{text,userID:cookies.get('userID')});
         for (let msg of res.data.fulfillmentMessages){
             says= {
                 speaks: 'FitBot',
@@ -36,7 +46,7 @@ class Chatbot extends Component {
     }
 
     async event_bot_query(event){
-        const res=await axios.post('http://localhost:5000/api/event_bot/',{event});
+        const res=await axios.post('http://localhost:5000/api/event_bot/',{event,userID:cookies.get('userID')});
         for(let msg of res.data.fulfillmentMessages){
             let says={
                 speaks:'FitBot',

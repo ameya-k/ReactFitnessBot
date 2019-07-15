@@ -8,13 +8,13 @@ module.exports=app=>{
 
     app.post('/api/text_bot/',async (req,res)=>{
 
-        let responses=await fitbot.textQuery(req.body.text,req.body.parameters);
+        let responses=await fitbot.textQuery(req.body.text,req.body.userID,req.body.parameters);
 
         res.send(responses[0].queryResult);
     });
 
     app.post('/api/event_bot',async (req,res)=>{
-        let responses=await fitbot.eventQuery(req.body.event,req.body.parameters);
+        let responses=await fitbot.eventQuery(req.body.event,req.body.userID,req.body.parameters);
 
         res.send(responses[0].queryResult);
     });
