@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import axios from 'axios/index';
 import  Message from './Message'
 class Chatbot extends Component {
-
+    messagesBottom;
     state={
         messages:[]
     };
@@ -53,7 +53,9 @@ class Chatbot extends Component {
         this.event_bot_query('Welcome');
     }
 
-
+componentDidUpdate() {
+    this.messagesBottom.scrollIntoView({behavior:'smooth'});
+}
 
     showMessages(messages){
         if(messages){
@@ -79,6 +81,7 @@ class Chatbot extends Component {
                 <div id='chatbot' style={{height:'100%',width:'100%',overflow:'auto'}}>
                     <h2>Chatbot</h2>
                     {this.showMessages(this.state.messages)}
+                    <div ref={(el)=>{this.messagesBottom=el;}} style={{float:'left',clear:'both'}} />
                     <input type='text' onKeyPress={this.inputChange}/>
                 </div>
             </div>
