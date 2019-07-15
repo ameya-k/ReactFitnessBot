@@ -13,7 +13,7 @@ class Chatbot extends Component {
             speaks:'Me',
             msg:{
                 text:{
-                    text:text;
+                    text:text
                 }
             }
         }
